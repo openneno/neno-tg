@@ -51,8 +51,8 @@ def setWebhook(hookUrl):
         'Content-Type': 'application/json'
     }
 
-    # response = requests.request("POST", url, headers=headers, data=payload)
-    response = requests.request("POST", url, headers=headers, data=payload, proxies=proxies)
+    response = requests.request("POST", url, headers=headers, data=payload)
+    # response = requests.request("POST", url, headers=headers, data=payload, proxies=proxies)
 
     print(response.text)
 
@@ -67,8 +67,8 @@ def sendMessage(chatId, text):
     headers = {
         'Content-Type': 'application/json'
     }
-    # response = requests.request("POST", url, headers=headers, data=payload)
-    response = requests.request("POST", url, headers=headers, data=payload, proxies=proxies)
+    response = requests.request("POST", url, headers=headers, data=payload)
+    # response = requests.request("POST", url, headers=headers, data=payload, proxies=proxies)
     print(response.json())
 
 
@@ -81,8 +81,8 @@ def getFile(FileId):
     headers = {
         'Content-Type': 'application/json'
     }
-    # response = requests.request("POST", url, headers=headers, data=payload)
-    response = requests.request("POST", url, headers=headers, data=payload, proxies=proxies)
+    response = requests.request("POST", url, headers=headers, data=payload)
+    # response = requests.request("POST", url, headers=headers, data=payload, proxies=proxies)
     filere = response.json()
     print(filere)
 
@@ -91,8 +91,8 @@ def getFile(FileId):
 
 def getFileDown(filePath):
     url = "https://api.telegram.org/file/bot{}/{}".format(token, filePath)
-
-    response = requests.request("GET", url, proxies=proxies)
+    response = requests.request("GET", url)
+    # response = requests.request("GET", url, proxies=proxies)
     photoContent = response.content
     return photoContent
 
@@ -248,5 +248,5 @@ def sendNenoContentToGithub(githubToken, githubRepo, githubUserName, content, ph
     response = requests.request("PUT", url, headers=headers, data=payload)
     return response.status_code, response.text
 
-
-app.run(host="0.0.0.0", port=9001, debug=True)
+#在服务器部署是取消下一行的注释
+# app.run(host="0.0.0.0", port=9001, debug=True)
