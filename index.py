@@ -157,6 +157,7 @@ def nenoTGPOST(request):
 
 
 def reply(githubToken, githubRepo, githubUserName, chatId, content, photo):
+    suffixName=""
     photoId=""
     if photo != "":
         status_code, retext, photoId,suffixName = sendNenoPhotoToGithub(githubToken, githubRepo, githubUserName, photo)
@@ -222,7 +223,7 @@ def sendNenoContentToGithub(githubToken, githubRepo, githubUserName, content, ph
     if photoId != "":
         images = [{
             "key": photoId,
-            "suffixName": "jpg"
+            "suffixName": suffixName
         }]
     neno = {
         "content": "<p>{}</p>".format(content),
