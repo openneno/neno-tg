@@ -159,9 +159,9 @@ def nenoTGPOST(request):
 def reply(githubToken, githubRepo, githubUserName, chatId, content, photo):
     photoId=""
     if photo != "":
-        status_code, retext, photoId = sendNenoPhotoToGithub(githubToken, githubRepo, githubUserName, photo)
+        status_code, retext, photoId,suffixName = sendNenoPhotoToGithub(githubToken, githubRepo, githubUserName, photo)
 
-    status_code, retext = sendNenoContentToGithub(githubToken, githubRepo, githubUserName, content, photoId)
+    status_code, retext = sendNenoContentToGithub(githubToken, githubRepo, githubUserName, content, photoId,suffixName)
     if (status_code == 201):
         sendMessage(chatId, "保存成功")
     elif status_code == 401:
@@ -203,11 +203,11 @@ def sendNenoPhotoToGithub(githubToken, githubRepo, githubUserName, photo):
 
     response = requests.request("PUT", url, headers=headers, data=payload)
     print(response.status_code, response.text, photoId)
-    return response.status_code, response.text, photoId
+    return response.status_code, response.text, photoId,suffixName
 
 
 # 根据用户的github设置将内容发送到github
-def sendNenoContentToGithub(githubToken, githubRepo, githubUserName, content, photoId):
+def sendNenoContentToGithub(githubToken, githubRepo, githubUserName, content, photoId,suffixName):
     utc_offset_sec = time.altzone if time.localtime().tm_isdst else time.timezone
     utc_offset = datetime.timedelta(seconds=-utc_offset_sec)
     createTime = datetime.datetime.now().replace(tzinfo=datetime.timezone(offset=utc_offset),
@@ -221,7 +221,8 @@ def sendNenoContentToGithub(githubToken, githubRepo, githubUserName, content, ph
     images = []
     if photoId != "":
         images = [{
-            "key": photoId
+            "key": photoId,
+            "suffixName": "jpg"
         }]
     neno = {
         "content": "<p>{}</p>".format(content),
